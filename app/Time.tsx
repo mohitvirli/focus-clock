@@ -10,22 +10,23 @@ const Digit = ({digits }: { digits: number }) => {
   const units = digits % 10;
   const [config, setConfig] = useState({
     width: 256,
-    margin: '-30px',
+    marginLeft: '-60px',
   });
 
   useEffect(() => {
     if (isMobile) {
       setConfig({
         width: 40,
-        margin: '-29px',
+        marginLeft: '-20px',
       });
     } else {
       setConfig({
         width: 150,
-        margin: '-30px',
+        marginLeft: '-60px',
       });
     }
-  }, []);
+  }, [isMobile]);
+
   return (
     <motion.div className="flex items-center justify-center"
       animate={ { opacity: 1 }}
@@ -34,7 +35,7 @@ const Digit = ({digits }: { digits: number }) => {
       <Magnet padding={80} disabled={false} magnetStrength={20}>
         <MorphText text={tenths} width={config.width}/>
       </Magnet>
-      <div className={`ml-[${config.margin}]`}>
+      <div style={ { marginLeft: config.marginLeft, display: 'inline-flex' }}>
         <Magnet padding={80} disabled={false} magnetStrength={20}>
           <MorphText text={units} width={config.width}/>
         </Magnet>
