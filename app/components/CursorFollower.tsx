@@ -34,7 +34,7 @@ const CursorFollower = () => {
 
   return (
     <motion.div
-      className="cursor-follower"
+      className="cursor-follower mix-blend-difference"
       style={{
         translateX: cursorX,
         translateY: cursorY,
@@ -46,7 +46,7 @@ const CursorFollower = () => {
         width: '30px', // Example size
         height: '30px', // Example size
         borderRadius: '50%', // Example shape (circle)
-        backgroundColor: 'rgba(255, 255, 255, 0.3)', // Example color
+        backgroundColor: '#00D492', // Example color
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
