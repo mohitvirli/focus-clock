@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Progress } from "./components/Progress";
 import { useTimeStore } from "./stores/timeStore";
 import { Time } from "./Time";
+import CursorFollower from "./components/CursorFollower";
 
 export default function Home() {
   const setTime = useTimeStore(store => store.setTime);
@@ -15,6 +16,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen w-[100dvw] bg-black text-white">
+      <CursorFollower/>
       <Time />
       <Progress />
     </div>
