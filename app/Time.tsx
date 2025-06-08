@@ -60,7 +60,7 @@ export const Time = () => {
 
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen z-10">
+    <div className="flex flex-col items-center justify-center h-[100dvh] z-10">
       <div className="flex">
         <Digit digits={hour} />
         <div className="text-9xl mx-2" style={ { fontSize, opacity, transitionDuration: '0.5s', }}>:</div>

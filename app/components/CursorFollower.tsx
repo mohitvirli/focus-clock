@@ -8,7 +8,6 @@ const CursorFollower = () => {
   const mouseY = useMotionValue(0);
 
   // Create spring-based motion values for smooth following
-  // Adjust stiffness and damping for more or less "lag"
   const springConfig = {
     damping: 20,   // Controls the oscillation (lower = more oscillation)
     stiffness: 200 // Controls the speed of the spring (lower = slower)
@@ -18,17 +17,32 @@ const CursorFollower = () => {
   const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+    // Function to handle both mouse and touch events
+    const handlePointerMove = (e: any) => {
+      let clientX, clientY;
+
+      // Check if it's a touch event and get the first touch point
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else {
+        // Otherwise, it's a mouse event
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+
+      mouseX.set(clientX);
+      mouseY.set(clientY);
     };
 
-    // Add event listener to the window
-    window.addEventListener('mousemove', handleMouseMove);
+    // Add event listeners to the window
+    window.addEventListener('mousemove', handlePointerMove);
+    window.addEventListener('touchmove', handlePointerMove, { passive: true }); // Use passive: true for better scroll performance on touch
 
-    // Clean up event listener on component unmount
+    // Clean up event listeners on component unmount
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousemove', handlePointerMove);
+      window.removeEventListener('touchmove', handlePointerMove);
     };
   }, [mouseX, mouseY]); // Dependencies to re-run effect if motion values change
 
@@ -50,8 +64,7 @@ const CursorFollower = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        // Optional: You can hide the default cursor for a cleaner look
-        // cursor: 'none',
+        cursor: 'none',
       }}
     />
   );
