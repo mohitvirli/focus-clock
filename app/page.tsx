@@ -5,12 +5,17 @@ import { Progress } from "./components/Progress";
 import { useTimeStore } from "./stores/timeStore";
 import { Time } from "./Time";
 import CursorFollower from "./components/CursorFollower";
+import { formatTitle } from "./utils/title";
 
 export default function Home() {
   const setTime = useTimeStore(store => store.setTime);
 
   useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 1000);
+    const interval = setInterval(() => {
+      const time = new Date();
+      document.title = formatTitle(time);
+      setTime(time);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 

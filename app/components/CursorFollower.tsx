@@ -39,14 +39,14 @@ const CursorFollower = () => {
         translateX: cursorX,
         translateY: cursorY,
         position: 'fixed',
-        top: '-7.5px',
-        left: '-7.5px',
+        top: '-15px',
+        left: '-15px',
         pointerEvents: 'none', // Important: Ensures the follower doesn't block clicks
         zIndex: 9999, // Ensure it's above other content
-        width: '15px', // Example size
-        height: '15px', // Example size
+        width: '30px', // Example size
+        height: '30px', // Example size
         borderRadius: '50%', // Example shape (circle)
-        backgroundColor: 'white', // Example color
+        backgroundColor: 'rgba(255, 255, 255, 0.3)', // Example color
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
