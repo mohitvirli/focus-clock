@@ -46,13 +46,13 @@ const Digit = ({digits }: { digits: number }) => {
 
 }
 export const Time = () => {
-  const { time, hours, minutes, seconds } = useTimeStore();
+  const { hour, minute, second } = useTimeStore();
   const [opacity, setOpacity] = useState(0.3);
   const [fontSize, setFontSize] = useState(156);
 
   useEffect(() => {
     setOpacity(prev => prev === 0.3 ? 0.7 : 0.3);
-  }, [seconds]);
+  }, [second]);
 
   useEffect(() => {
     setFontSize(isMobile ? 30 : 156);
@@ -62,11 +62,11 @@ export const Time = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen z-10">
       <div className="flex">
-        <Digit digits={hours} />
+        <Digit digits={hour} />
         <div className="text-9xl mx-2" style={ { fontSize, opacity, transitionDuration: '0.5s', }}>:</div>
-        <Digit digits={minutes} />
+        <Digit digits={minute} />
         <div className="text-9xl mx-2" style={ { fontSize, opacity, transitionDuration: '0.5s', }}>:</div>
-        <Digit digits={seconds} />
+        <Digit digits={second} />
       </div>
     </div>
   );

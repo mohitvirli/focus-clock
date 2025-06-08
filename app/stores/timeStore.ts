@@ -2,9 +2,9 @@ import { create } from 'zustand'
 
 interface TimeStore {
   time: Date;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  hour: number;
+  minute: number;
+  second: number;
   setTime: (time: Date) => void;
 }
 export const useTimeStore = create<TimeStore>((set) => {
@@ -12,15 +12,15 @@ export const useTimeStore = create<TimeStore>((set) => {
 
   return {
     time,
-    hours: time.getHours(),
-    minutes: time.getMinutes(),
-    seconds: time.getSeconds(),
+    hour: time.getHours(),
+    minute: time.getMinutes(),
+    second: time.getSeconds(),
 
     setTime: (newTime: Date) => set({
       time: newTime,
-      hours: newTime.getHours(),
-      minutes: newTime.getMinutes(),
-      seconds: newTime.getSeconds(),
+      hour: newTime.getHours(),
+      minute: newTime.getMinutes(),
+      second: newTime.getSeconds(),
     }),
   };
 });

@@ -2,10 +2,12 @@
 
 import { useAnimate } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useTimeStore } from "../stores/timeStore";
 
 export const Progress = () => {
   const divs = new Array(60).fill(null);
-  const [scope, animate] = useAnimate()
+  const [scope, animate] = useAnimate();
+  const { second, minute } = useTimeStore();
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
@@ -14,43 +16,41 @@ export const Progress = () => {
       setWidth(newWidth);
     };
     window.addEventListener("resize", handleResize);
-    handleResize();
+    handleResize(); // Initial call to set width on mount
     return () => window.removeEventListener("resize", handleResize)
   }, []);
 
   useEffect(() => {
-    if (!scope.current) return;
+    [...scope.current.children].forEach((child, index) => {
+      if (index < minute) {
+        animate(child, {
+          bottom: 0,
+          opacity: 1,
+          rotate: '180deg',
+        }, { duration: 1, delay: index * 0.03, ease: "easeInOut" });
+      } else if (minute === index) {
+        animate(child, {
+          bottom: 0,
+          opacity: 1,
+          rotate: '180deg',
+        }, { duration: 60 - second, ease: "easeInOut" });
+      } else {
+        animate(child, {
+          bottom: '400px',
+          opacity: 0,
+          rotate: `90deg`,
+        }, { duration: 1,  delay: (60 - index) * 0.03, ease: "easeInOut" });
+      }
 
-    [...scope.current.children].slice(0, new Date().getMinutes()).forEach((child, index) => {
-      animate(child, {
-        bottom: 0,
-        opacity: 1,
-        rotate: '180deg',
-      }, { duration: 1, delay: index * 0.03, ease: "easeInOut" });
     });
-
-    const interval = setInterval(() => {
-      const now = new Date();
-      const seconds = now.getSeconds();
-      const minutes = now.getMinutes();
-      const progress = seconds / 59;
-      animate(scope.current.children[minutes], {
-        bottom: 400 * (1 - progress),
-        opacity: 0.2 + seconds / 50,
-        rotate: `${progress*90}deg`,
-      }, { duration: 1 });
-
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+  }, [minute]);
 
   return (
     <div className="w-full flex fixed bottom-0 bg-emerald-900" style={{ height: `${width}px`}}ref={scope}>
       {divs.map((_, index) => (
         <div
           key={index}
-          className="bg-emerald-400 border-emerald-400 border-2"
+          className="bg-emerald-400 border-emerald-400 border-1"
           style={{
             position: 'absolute',
             width: `${width}px`,
