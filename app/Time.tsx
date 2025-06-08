@@ -2,8 +2,9 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
-import MorphText from "./components/Morph";
 import Magnet from "./components/Magnet";
+import MorphText from "./components/Morph";
+import { useTimeStore } from "./stores/timeStore";
 
 const Digit = ({digits }: { digits: number }) => {
   const tenths = Math.floor(digits / 10);
@@ -45,36 +46,27 @@ const Digit = ({digits }: { digits: number }) => {
 
 }
 export const Time = () => {
-  const [time, setTime] = useState(new Date());
+  const { time, hours, minutes, seconds } = useTimeStore();
   const [opacity, setOpacity] = useState(0.3);
   const [fontSize, setFontSize] = useState(156);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      setTime(now);
-      setOpacity(prev => prev === 0.3 ? 0.7 : 0.3);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    setOpacity(prev => prev === 0.3 ? 0.7 : 0.3);
+  }, [seconds]);
 
   useEffect(() => {
-    if (isMobile) {
-      setFontSize(30);
-    } else {
-      setFontSize(156);
-    }
+    setFontSize(isMobile ? 30 : 156);
   }, []);
 
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen z-10">
       <div className="flex">
-        <Digit digits={time.getHours()} />
+        <Digit digits={hours} />
         <div className="text-9xl mx-2" style={ { fontSize, opacity, transitionDuration: '0.5s', }}>:</div>
-        <Digit digits={time.getMinutes()} />
+        <Digit digits={minutes} />
         <div className="text-9xl mx-2" style={ { fontSize, opacity, transitionDuration: '0.5s', }}>:</div>
-        <Digit digits={time.getSeconds()} />
+        <Digit digits={seconds} />
       </div>
     </div>
   );
