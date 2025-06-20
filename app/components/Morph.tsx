@@ -40,7 +40,10 @@ export default function MorphText(props: { text: number, width?: number }) {
   }, [index])
 
   return (
-    <svg viewBox="0 0 256 256" width={props.width ?? 128}>
+    <svg viewBox="0 0 256 256" 
+      width={props.width ?? 128}
+      height={props.width ?? 128}
+    >
       <defs>
         <filter id="filter">
           <feGaussianBlur in="SourceAlpha" stdDeviation="20" result="blur" />
